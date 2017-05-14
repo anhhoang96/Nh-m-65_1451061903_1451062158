@@ -1,0 +1,154 @@
+-- phpMyAdmin SQL Dump
+-- version 4.1.14
+-- http://www.phpmyadmin.net
+--
+-- Host: 127.0.0.1
+-- Generation Time: May 14, 2017 at 05:26 PM
+-- Server version: 5.6.17
+-- PHP Version: 5.5.12
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
+--
+-- Database: `web_english`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `baiviet`
+--
+
+CREATE TABLE IF NOT EXISTS `baiviet` (
+  `Id_BV` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `Anh_BV` longblob NOT NULL,
+  `Ndtt_BV` text COLLATE utf8_unicode_ci NOT NULL,
+  `ND_BV` text COLLATE utf8_unicode_ci NOT NULL,
+  `Id_DM` int(10) unsigned NOT NULL,
+  `Tgian` datetime NOT NULL,
+  `Tieude_KH` text COLLATE utf8_unicode_ci NOT NULL,
+  `Luotxem` int(20) NOT NULL,
+  PRIMARY KEY (`Id_BV`),
+  UNIQUE KEY `Id_DM` (`Id_DM`),
+  UNIQUE KEY `Id_BV` (`Id_BV`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `binhluan`
+--
+
+CREATE TABLE IF NOT EXISTS `binhluan` (
+  `Id_BL` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `Nd_BL` text COLLATE utf8_unicode_ci NOT NULL,
+  `Id_BV` int(10) unsigned NOT NULL,
+  `Id_US` int(10) unsigned NOT NULL,
+  `Id_KH` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`Id_BL`),
+  UNIQUE KEY `Id_US` (`Id_US`),
+  UNIQUE KEY `Id_BV` (`Id_BV`),
+  UNIQUE KEY `Id_KH` (`Id_KH`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `coso`
+--
+
+CREATE TABLE IF NOT EXISTS `coso` (
+  `Id_CS` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `Dc_CS` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `Email_CS` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `Sdt_CS` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`Id_CS`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `danhmuc`
+--
+
+CREATE TABLE IF NOT EXISTS `danhmuc` (
+  `Id_DM` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `Ten_DM` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`Id_DM`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `giaovien`
+--
+
+CREATE TABLE IF NOT EXISTS `giaovien` (
+  `Id_GV` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `Ten_GV` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `Sdt_GV` varchar(15) COLLATE utf8_unicode_ci NOT NULL,
+  `Email_GV` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  `Id_KH` int(10) unsigned NOT NULL,
+  `Mota` text COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`Id_GV`),
+  UNIQUE KEY `Id_KH` (`Id_KH`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `khoahoc`
+--
+
+CREATE TABLE IF NOT EXISTS `khoahoc` (
+  `Id_KH` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `Tieude_KH` text COLLATE utf8_unicode_ci NOT NULL,
+  `Anh_KH` longblob NOT NULL,
+  `Ndtt_KH` text COLLATE utf8_unicode_ci NOT NULL,
+  `Nd_KH` text COLLATE utf8_unicode_ci NOT NULL,
+  `Anh_LH` longblob NOT NULL,
+  `Id_CS` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`Id_KH`),
+  UNIQUE KEY `Id_CS` (`Id_CS`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE IF NOT EXISTS `user` (
+  `Id_US` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `Ten_US` varchar(30) COLLATE utf8_unicode_ci NOT NULL,
+  `Pass` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
+  `Email_US` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`Id_US`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `baiviet`
+--
+ALTER TABLE `baiviet`
+  ADD CONSTRAINT `baiviet_ibfk_1` FOREIGN KEY (`Id_DM`) REFERENCES `danhmuc` (`Id_DM`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `binhluan`
+--
+ALTER TABLE `binhluan`
+  ADD CONSTRAINT `binhluan_ibfk_1` FOREIGN KEY (`Id_KH`) REFERENCES `khoahoc` (`Id_KH`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
